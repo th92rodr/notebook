@@ -7,6 +7,11 @@ const noteSchema = new Schema({
     description: {
         type: String,
         required: true
+    },
+    creator: {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+        required: true
     }
 },
 {
