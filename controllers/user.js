@@ -27,4 +27,12 @@ module.exports = {
         return res.json({ user });
     },
 
+    async login(req, res) {
+        const { password, email } = req.body;
+
+        const { token, tokenExpiration } = await UserService.login(email, password);
+
+        return res.json({ token, tokenExpiration });
+    },
+
 };
