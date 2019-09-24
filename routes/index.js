@@ -1,9 +1,12 @@
 const express = require('express');
 
+const checkAuthentication = require('../middleware/authenticate');
 const NoteController = require('../controllers/note');
 const UserController = require('../controllers/user');
 
 const router = express.Router();
+
+router.use(checkAuthentication);
 
 router.get('/', (req, res) => {
     res.send('Hello World');
@@ -20,5 +23,7 @@ router.put('/note/update/:noteId', NoteController.update);
 router.post('/user/add', UserController.store);
 router.delete('/user/delete/:userId', UserController.delete);
 router.put('/user/update/:userId', UserController.update);
+
+router.get('/login', UserController.login);
 
 module.exports = router;
