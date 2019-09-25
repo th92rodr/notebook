@@ -6,4 +6,6 @@ const app = express();
 
 app.use('/', routes);
 
+require('./database').connect();
+
 module.exports = app;
