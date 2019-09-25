@@ -1,6 +1,6 @@
 const express = require('express');
 
-const checkAuthentication = require('../middleware/authenticate');
+const checkAuthentication = require('../middleware/authentication');
 const NoteController = require('../controllers/note');
 const UserController = require('../controllers/user');
 
@@ -9,7 +9,7 @@ const router = express.Router();
 router.use(checkAuthentication);
 
 router.get('/', (req, res) => {
-    res.send('Hello World');
+  res.send('Hello World');
 });
 
 // Note routes
