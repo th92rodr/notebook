@@ -1,15 +1,15 @@
 {
-  "name": "notes-taker-app",
+  "name": "notes-taking-api",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
     "watch": "nodemon ./server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Thiago Rodrigues",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "jshint": "^2.10.2",
-    "nodemon": "^1.19.2"
+    "nodemon": "^1.19.2",
+    "prettier": "1.18.2"
   }
 }
