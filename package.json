@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon ./server.js -- watch **/*.js --ignore ./node_modules/ --delay 5 --verbose",
     "watch": "nodemon ./server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "keywords": [],
   "author": "Thiago Rodrigues",
@@ -22,7 +22,10 @@
     "morgan": "^1.9.1"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "jshint": "^2.10.2",
+    "mocha": "^6.2.0",
     "nodemon": "^1.19.2",
     "prettier": "1.18.2"
   }
