@@ -1,0 +1,288 @@
+{
+	"info": {
+		"_postman_id": "7a17a6ab-5da2-44bf-82c4-f7f9406388c8",
+		"name": "note-taking-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user-requests",
+			"item": [
+				{
+					"name": "user-store",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"user-test-0\",\n    \"password\": \"user-password-0\",\n    \"email\": \"test-0@user.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/user/add",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"user",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user-delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/user/delete/5d8baaab8c570c001d90a7e3",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"user",
+								"delete",
+								"5d8baaab8c570c001d90a7e3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user-update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"user-test-11\",\n    \"password\": \"user-password-11\",\n    \"email\": \"test-111@user.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/user/update/5d8babbff721a4001d23882a",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"user",
+								"update",
+								"5d8babbff721a4001d23882a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"user-password-0\",\n    \"email\": \"test-0@user.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/login",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "note-requests",
+			"item": [
+				{
+					"name": "note-index",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "userId",
+								"value": "5d8bb686155c5b001d01fe90",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:5000/note/index",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"note",
+								"index"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "note-show",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/note/index/5d8bb74ddbae84001d0b47f3",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"note",
+								"index",
+								"5d8bb74ddbae84001d0b47f3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "note-store",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "userId",
+								"value": "5d8bb686155c5b001d01fe90",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Note 1\",\n\t\"description\": \"note description\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/note/add",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"note",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "note-delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/note/delete/5d8bb74ddbae84001d0b47f3",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"note",
+								"delete",
+								"5d8bb74ddbae84001d0b47f3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "note-update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Note 11\",\n\t\"description\": \"note description updated\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5000/note/update/5d8bb74ddbae84001d0b47f3",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"note",
+								"update",
+								"5d8bb74ddbae84001d0b47f3"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
