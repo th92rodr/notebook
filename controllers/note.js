@@ -15,7 +15,7 @@ module.exports = {
     const notes = await NoteService.getAllNotes(userId);
 
     // return a response with the notes
-    return res.json({ notes });
+    return res.status(200).json({ notes });
   },
 
   async show(req, res) {
@@ -24,7 +24,7 @@ module.exports = {
 
     const note = await NoteService.getSingleNote(noteId);
 
-    return res.json({ note });
+    return res.status(200).json({ note });
   },
 
   async store(req, res) {
@@ -38,7 +38,7 @@ module.exports = {
 
     const note = await NoteService.createNote(title, description, userId);
 
-    return res.json({ note });
+    return res.status(200).json({ note });
   },
 
   async delete(req, res) {
@@ -46,7 +46,7 @@ module.exports = {
 
     const note = await NoteService.deleteNote(noteId);
 
-    return res.json({ note });
+    return res.status(200).json({ note });
   },
 
   async update(req, res) {
@@ -60,7 +60,7 @@ module.exports = {
 
     const note = await NoteService.updateNote(noteId, title, description);
 
-    return res.json({ note });
+    return res.status(200).json({ note });
   },
 
   validate: function validate(method) {
