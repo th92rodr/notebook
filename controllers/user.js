@@ -28,7 +28,7 @@ module.exports = {
     const user = await UserService.deleteUser(userId);
     console.log('user - ', user);
 
-    return res.json({ user });
+    return res.status(200).json({ user });
   },
 
   async update(req, res) {
@@ -48,7 +48,7 @@ module.exports = {
     const user = await UserService.updateUser(userId, name, password, email);
     console.log('user - ', user);
 
-    return res.json({ user });
+    return res.status(200).json({ user });
   },
 
   async login(req, res) {
@@ -66,7 +66,7 @@ module.exports = {
     console.log('token - ', token);
     console.log('token expiration - ', tokenExpiration);
 
-    return res.json({ token, tokenExpiration });
+    return res.status(200).json({ token, tokenExpiration });
   },
 
   validate: function validate(method) {
