@@ -3,7 +3,7 @@ process.env.NODE_ENV = 'test';
 const chai = require('chai');
 const chaihttp = require('chai-http');
 
-const app = require('../server');
+const app = require('../app');
 const User = require('../models/user');
 
 const should = chai.should();
