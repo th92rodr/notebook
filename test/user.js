@@ -3,13 +3,12 @@ process.env.NODE_ENV = 'test';
 const chai = require('chai');
 const chaihttp = require('chai-http');
 
-const app = require('../app');
+const app = require('../server');
 const User = require('../models/user');
 
 const should = chai.should();
 chai.use(chaihttp);
 
-/* */
 let userId;
 
 function createUser(done) {
@@ -22,14 +21,11 @@ function createUser(done) {
   newUser.save((error, data) => {
     if (!error) {
       userId = data._id;
-
-      console.log('new user ', data);
-      console.log('new user ID ', userId);
-
+      //console.log('new user ', data);
+      //console.log('new user ID ', userId);
       done();
     } else {
       console.error('Error creating user - ', error);
-
       return done('Error');
     }
   });
@@ -60,21 +56,22 @@ describe('Users', () => {
       .request(app)
       .post('/user/add')
       .send({
-        name: 'test user name',
-        password: 'test user password',
-        email: 'test@user.com'
+        name: 'test user name 2',
+        password: 'test user password 2',
+        email: 'test-2@user.com'
       })
       .end((error, res) => {
+        //console.log('ADD RES BODY -> ', res.body);
+        //console.log('ADD RES BODY USER -> ', res.body.user.createdUser);
         res.should.have.status(200);
         res.should.be.json;
-        res.body.should.be.a('object');
-        res.body.should.have.property('_id');
-        res.body.should.have.property('name');
-        res.body.should.have.property('password');
-        res.body.should.have.property('email');
-        res.body.name.should.equal('test user name');
-        res.body.password.should.equal('test user password');
-        res.body.email.should.equal('test@user.com');
+        res.body.user.createdUser.should.be.a('object');
+        res.body.user.createdUser.should.have.property('_id');
+        res.body.user.createdUser.should.have.property('name');
+        res.body.user.createdUser.should.have.property('password');
+        res.body.user.createdUser.should.have.property('email');
+        res.body.user.createdUser.name.should.equal('test user name 2');
+        res.body.user.createdUser.email.should.equal('test-2@user.com');
         done();
       });
   });
@@ -89,16 +86,8 @@ describe('Users', () => {
         email: 'test@user.com'
       })
       .end((error, res) => {
-        res.should.have.status(200);
-        res.should.be.json;
-        res.body.should.be.a('object');
-        res.body.should.have.property('_id');
-        res.body.should.have.property('name');
-        res.body.should.have.property('password');
-        res.body.should.have.property('email');
-        res.body.name.should.equal('test user name');
-        res.body.password.should.equal('test user password');
-        res.body.email.should.equal('test@user.com');
+        //console.log('UPDATE RES BODY -> ', res.body);
+        res.should.have.status(204);
         done();
       });
   });
@@ -108,10 +97,8 @@ describe('Users', () => {
       .request(app)
       .delete(`/user/delete/${userId}`)
       .end((error, res) => {
-        res.should.have.status(200);
-        res.should.be.json;
-        res.body.should.be.a('object');
-        res.body.should.have.property('REMOVED');
+        //console.log('DELETE RES BODY -> ', res.body);
+        res.should.have.status(204);
         done();
       });
   });
