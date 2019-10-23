@@ -27,9 +27,6 @@
 - **`chai`** - 
 - **`chai-http`** - 
 - **`mocha`** - 
-- **`nodemon`** - 
-- **`jshint`** - 
-- **`prettier`** - 
 
 
 ## RUNNING THE APPLICATION
@@ -54,4 +51,11 @@ docker-compose up
 
 ```sh
 npx prettier --config .prettierrc.js --write "**/**/*.js"
+```
+
+### Run eslint
+
+```sh
+npx eslint "**/**/*.js"
+./node_modules/.bin/eslint "**/**/*.js"
 ```
