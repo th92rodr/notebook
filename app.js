@@ -1,15 +1,19 @@
 const express = require('express');
 const bodyparser = require('body-parser');
+
 const routes = require('./routes/index');
 
-// initialize an express app
+// Initialize an express app
 const app = express();
 
-app.use(bodyparser.urlencoded({ extended: true }));
+// Add a parser for JSON format requests
 app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: true }));
 
+// Add routing
 app.use('/', routes);
 
+// Start connection to database 
 require('./database').connect();
 
 module.exports = app;
