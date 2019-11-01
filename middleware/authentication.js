@@ -1,3 +1,7 @@
+// Verify if the current user is authenticated and
+// safe the result in the request.
+// This value is going to be checked in the controllers,
+// since some routes require authentication and others don't.
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
@@ -7,23 +11,19 @@ function isNotAuthenticated(req, next) {
 }
 
 module.exports = (req, res, next) => {
+  // Get the Authentication Request Header
   const authHeader = req.headers.authorization;
-  console.log('authorization ', authHeader);
   if (!authHeader) return isNotAuthenticated(req, next);
 
-  // Authentication Header = Bearer 'token'
+  // Expected format - Authentication Header = Bearer 'token'
   const parts = authHeader.split(' ');
-  console.log('parts ', parts);
   if (!parts.length === 2) return isNotAuthenticated(req, next);
 
-  const [ scheme, token ] = parts;
-  console.log('token ', token);
-  console.log('scheme ', scheme);
+  const [scheme, token] = parts;
   if (!/^Bearer$/i.test(scheme)) return isNotAuthenticated(req, next);
   if (!token || token === '') return isNotAuthenticated(req, next);
 
-  console.log('token ', token);
-
+  // Verify if the provided token is valid
   let decodedToken;
   try {
     decodedToken = jwt.verify(token, process.env.SALT);
@@ -31,7 +31,6 @@ module.exports = (req, res, next) => {
     console.log('error ', error);
     return isNotAuthenticated(req, next);
   }
-  console.log('decodedToken ', decodedToken);
 
   if (!decodedToken) return isNotAuthenticated(req, next);
 
