@@ -17,21 +17,18 @@ router.get('/', (req, res) => {
   res.send('Hello World');
 });
 
-// Note routes
-router.get(
-  '/note/index',
+// Note Routes
+router.get('/note/',
   NoteController.validate('index'),
   NoteController.index
 );
-router.get('/note/index/:noteId', NoteController.show);
-router.post(
-  '/note/add',
+router.get('/note/:noteId', NoteController.show);
+router.post('/note/',
   NoteController.validate('store'),
   NoteController.store
 );
-router.delete('/note/delete/:noteId', NoteController.delete);
-router.put(
-  '/note/update/:noteId',
+router.delete('/note/:noteId', NoteController.delete);
+router.put('/note/:noteId',
   NoteController.validate('update'),
   NoteController.update
 );
