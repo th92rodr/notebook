@@ -12,6 +12,20 @@ const router = express.Router();
 router.use(logger);
 router.use(checkAuthentication);
 
+router.use(handleCORS);
+
+function handleCORS(req, res, next) {
+  console.log('handle cors');
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  if (req.method === 'OPTIONS') {
+    console.log('options');
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH");
+    return res.status(200).end();
+  }
+  next();
+}
+
 // ROUTES
 router.get('/', (req, res) => {
   res.send('Hello World');
@@ -33,19 +47,25 @@ router.put('/note/:noteId',
   NoteController.update
 );
 
-// User routes
-router.post(
-  '/user/add',
+// User Routes
+router.post('/user/',
   UserController.validate('store'),
   UserController.store
 );
-router.delete('/user/delete/:userId', UserController.delete);
-router.put(
-  '/user/update/:userId',
+router.delete('/user/:userId', UserController.delete);
+router.put('/user/:userId',
   UserController.validate('update'),
   UserController.update
 );
 
-router.post('/login', UserController.validate('login'), UserController.login);
+router.post('/login/',
+  UserController.validate('login'),
+  UserController.login
+);
+
+// Not Found Route
+router.use('*', (req, res) => {
+  res.status(404).json({ message: 'Not Found' });
+});
 
 module.exports = router;
