@@ -1,9 +1,14 @@
-const NoteModel = require('../models/note');
-const UserModel = require('../models/user');
+const NoteModel = require('../models/Note');
+const UserModel = require('../models/User');
 
 module.exports = {
+  /**
+   * Gets all notes from a given user
+   * @param {ID} userId
+   */
   async getAllNotes(userId) {
     try {
+      // Verify if the user exists
       const user = await UserModel.findOne({ id: userId });
       if (!user) throw new Error('User does not exists');
 
@@ -15,17 +20,29 @@ module.exports = {
     }
   },
 
+  /**
+   * Get data of a single given note
+   * @param {ID} noteId 
+   */
   async getSingleNote(noteId) {
     try {
       const note = await NoteModel.findById(noteId);
+
       return { note };
     } catch (error) {
       throw error;
     }
   },
 
+  /**
+   * Creates a new note
+   * @param {String} title 
+   * @param {String} description 
+   * @param {ID} userId 
+   */
   async createNote(title, description, userId) {
     try {
+      // Verify if the user exists
       const user = await UserModel.findOne({ id: userId });
       if (!user) throw new Error('User does not exists');
 
@@ -41,6 +58,10 @@ module.exports = {
     }
   },
 
+  /**
+   * Deletes a given note
+   * @param {ID} noteId 
+   */
   async deleteNote(noteId) {
     try {
       //NoteModel.findByIdAndRemove()
@@ -52,6 +73,12 @@ module.exports = {
     }
   },
 
+  /**
+   * Updates a given note
+   * @param {ID} noteId 
+   * @param {String} title 
+   * @param {String} description 
+   */
   async updateNote(noteId, title, description) {
     try {
       //NoteModel.findByIdAndUpdate()
@@ -65,4 +92,5 @@ module.exports = {
       throw error;
     }
   }
+
 };
