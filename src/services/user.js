@@ -1,12 +1,19 @@
 require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const UserModel = require('../models/user');
+
+const UserModel = require('../models/User');
 
 module.exports = {
+  /**
+   * Creates a new user
+   * @param {String} name 
+   * @param {String} password 
+   * @param {String} email 
+   */
   async createUser(name, password, email) {
     try {
-      // encrypt the user's password
+      // Encrypt the user's password
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const createdUser = await UserModel.create({
@@ -21,6 +28,10 @@ module.exports = {
     }
   },
 
+  /**
+   * Deletes a given user
+   * @param {ID} userId 
+   */
   async deleteUser(userId) {
     try {
       const deletedUser = await UserModel.deleteOne({ _id: userId });
@@ -31,8 +42,16 @@ module.exports = {
     }
   },
 
+  /**
+   * Updates a given user
+   * @param {ID} userId 
+   * @param {String} name 
+   * @param {String} password 
+   * @param {String} email 
+   */
   async updateUser(userId, name, password, email) {
     try {
+      // Encrypt the user's password
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const updatedUser = await UserModel.updateOne(
@@ -50,18 +69,22 @@ module.exports = {
     }
   },
 
+  /**
+   * Perform user login
+   * @param {String} email 
+   * @param {String} password 
+   */
   async login(email, password) {
     try {
-      // get the user data in the database
+      // Get the user data in the database
       const user = await UserModel.findOne({ email: email });
-      console.log('user - ', user);
       if (!user) throw new Error('User does not exists');
 
-      // verify if the informed password is valid
-      console.log('password - ', password, ' user password - ', user.password);
+      // Verify if the informed password is valid
       const isValid = await bcrypt.compare(password, user.password);
       if (!isValid) throw new Error('Credentials are invalid');
 
+      // Creates a new token valid for 1 hour
       const token = await jwt.sign(
         { userId: user.id, email: user.email },
         process.env.SALT,
@@ -73,4 +96,5 @@ module.exports = {
       throw error;
     }
   }
+
 };
