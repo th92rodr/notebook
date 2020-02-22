@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon ./server.js -- watch **/*.js --ignore ./node_modules/ --delay 5 --verbose",
-    "watch": "nodemon ./server.js",
+    "start": "nodemon src/server.js",
+    "watch": "nodemon --inpect src/server.js",
     "test": "mocha"
   },
   "keywords": [],

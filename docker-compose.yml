@@ -3,20 +3,20 @@ version: "3"
 services:
   app:
     build: .
-    restart: always
     ports:
       - "5000:5000"
     links:
      - db
     volumes:
      - .:/usr/app
-    container_name: node
+     - /usr/app/node_modules
+    container_name: notes-taking-server
     command: npm start
 
   db:
     image: mongo
     ports:
       - "27017:27017"
-    container_name: mongodb
+    container_name: notes-taking-database
     logging:
       driver: "none"
