@@ -1,22 +1,22 @@
-version: "3"
+version: '3'
 
 services:
   app:
-    build: .
-    ports:
-      - "5000:5000"
-    links:
-     - db
-    volumes:
-     - .:/usr/app
-     - /usr/app/node_modules
+    image: node:12.10.0-alpine
     container_name: notes-taking-server
-    command: npm start
+    ports:
+      - '5000:5000'
+    links:
+      - db
+    volumes:
+      - .:/usr/app
+      - /usr/app/node_modules
+    command: sh -c "cd /usr/app/ && npm i && npm start"
 
   db:
     image: mongo
-    ports:
-      - "27017:27017"
     container_name: notes-taking-database
+    ports:
+      - '27017:27017'
     logging:
-      driver: "none"
+      driver: 'none'
