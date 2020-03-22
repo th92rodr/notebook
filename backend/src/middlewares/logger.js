@@ -1,10 +1,6 @@
-// HTTP request logger middleware
 const morgan = require('morgan');
 
-//morgan('combined');
-//morgan(':method :url :status :res[content-length] - :response-time ms');
-
-const logger = morgan(function(tokens, req, res) {
+const logger = morgan((tokens, req, res) => {
   return [
     '[',
     tokens.method(req, res),
