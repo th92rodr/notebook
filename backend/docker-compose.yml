@@ -5,7 +5,7 @@ services:
     image: node:12.10.0-alpine
     container_name: notes-taking-server
     ports:
-      - '5000:5000'
+      - '8080:8080'
     links:
       - db
     volumes:
