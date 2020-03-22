@@ -1,5 +1,7 @@
 const { check, validationResult } = require('express-validator');
-const NoteService = require('../services/note');
+
+const NoteModel = require('../models/Note');
+const UserModel = require('../models/User');
 
 module.exports = {
   async index(req, res) {
@@ -9,13 +11,13 @@ module.exports = {
       if (!errors.isEmpty())
         return res.status(422).json({ errors: errors.array() });
 
-      // get the current user id
-      const { userId } = req.headers;
+      const { userId } = req.params;
 
-      // get all notes from this user
-      const notes = await NoteService.getAllNotes(userId);
+      const user = await UserModel.findById(userId);
+      if (!user) throw new Error('User does not exists');
 
-      // return a response with the notes
+      const notes = await NoteModel.find({ creator: user });
+
       return res.status(200).json({ notes });
     } catch (error) {
       return res.status(500).json({ message: error.message });
@@ -24,11 +26,8 @@ module.exports = {
 
   async show(req, res) {
     try {
-      // get the required note id
       const { noteId } = req.params;
-
-      const note = await NoteService.getSingleNote(noteId);
-
+      const note = await NoteModel.findById(noteId);
       return res.status(200).json({ note });
     } catch (error) {
       return res.status(500).json({ message: error.message });
@@ -42,12 +41,19 @@ module.exports = {
       if (!errors.isEmpty())
         return res.status(422).json({ errors: errors.array() });
 
-      const { userId } = req.headers;
+      const { userId } = req.params;
       const { title, description } = req.body;
 
-      const note = await NoteService.createNote(title, description, userId);
+      const user = await UserModel.findById(userId);
+      if (!user) throw new Error('User does not exists');
 
-      return res.status(200).json({ note });
+      const createdNote = await NoteModel.create({
+        title,
+        description,
+        creator: user
+      });
+
+      return res.status(200).json({ createdNote });
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
@@ -56,9 +62,7 @@ module.exports = {
   async delete(req, res) {
     try {
       const { noteId } = req.params;
-
-      const note = await NoteService.deleteNote(noteId);
-
+      await NoteModel.findByIdAndDelete(noteId);
       return res.status(204).end();
     } catch (error) {
       return res.status(500).json({ message: error.message });
@@ -75,7 +79,7 @@ module.exports = {
       const { noteId } = req.params;
       const { title, description } = req.body;
 
-      const note = await NoteService.updateNote(noteId, title, description);
+      await NoteModel.findByIdAndUpdate(noteId, { title, description });
 
       return res.status(204).end();
     } catch (error) {
