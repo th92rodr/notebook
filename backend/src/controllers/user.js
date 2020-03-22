@@ -1,36 +1,38 @@
+require('dotenv').config();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
-const UserService = require('../services/user');
+
+const UserModel = require('../models/User');
 
 module.exports = {
   async store(req, res) {
-    console.log('User Store');
     try {
       // Finds the validation errors in this request and wraps them in an object with handy functions
       const errors = validationResult(req);
       if (!errors.isEmpty())
         return res.status(422).json({ errors: errors.array() });
 
-      const { name, password, email } = req.body;
-      console.log('body - ', name, password, email);
+      const { name, email, password } = req.body;
 
-      const user = await UserService.createUser(name, password, email);
-      console.log('user - ', user);
+      const hashedPassword = await bcrypt.hash(password, 10);
 
-      return res.status(200).json({ user });
+      const createdUser = await UserModel.create({
+        name,
+        email,
+        password: hashedPassword
+      });
+
+      return res.status(200).json({ createdUser });
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
   },
 
   async delete(req, res) {
-    console.log('User Delete');
     try {
       const { userId } = req.params;
-      console.log('params - ', userId);
-
-      const user = await UserService.deleteUser(userId);
-      console.log('user - ', user);
-
+      await UserModel.findByIdAndDelete(userId);
       return res.status(204).end();
     } catch (error) {
       return res.status(500).json({ message: error.message });
@@ -38,7 +40,6 @@ module.exports = {
   },
 
   async update(req, res) {
-    console.log('User Update');
     try {
       // Finds the validation errors in this request and wraps them in an object with handy functions
       const errors = validationResult(req);
@@ -46,13 +47,15 @@ module.exports = {
         return res.status(422).json({ errors: errors.array() });
 
       const { userId } = req.params;
-      console.log('params - ', userId);
-
       const { name, password, email } = req.body;
-      console.log('body - ', name, password, email);
 
-      const user = await UserService.updateUser(userId, name, password, email);
-      console.log('user - ', user);
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      await UserModel.findByIdAndUpdate(userId, {
+        name,
+        email,
+        password: hashedPassword
+      });
 
       return res.status(204).end();
     } catch (error) {
@@ -61,24 +64,27 @@ module.exports = {
   },
 
   async login(req, res) {
-    console.log('User Login');
     try {
       // Finds the validation errors in this request and wraps them in an object with handy functions
       const errors = validationResult(req);
       if (!errors.isEmpty())
         return res.status(422).json({ errors: errors.array() });
 
-      const { password, email } = req.body;
-      console.log('body - ', password, email);
+      const { email, password } = req.body;
+      const user = await UserModel.findOne({ email: email });
+      if (!user) throw new Error('User does not exists');
 
-      const { token, tokenExpiration } = await UserService.login(
-        email,
-        password
+      // Verify if the informed password is valid
+      const isValid = await bcrypt.compare(password, user.password);
+      if (!isValid) throw new Error('Credentials are invalid');
+
+      const token = await jwt.sign(
+        { userId: user.id, email: user.email },
+        process.env.SALT,
+        { expiresIn: '1h' }
       );
-      console.log('token - ', token);
-      console.log('token expiration - ', tokenExpiration);
 
-      return res.status(200).json({ token, tokenExpiration });
+      return res.status(200).json({ token, tokenExpiration: 1 });
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
