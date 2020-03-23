@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
@@ -7,48 +8,75 @@ const UserModel = require('../models/User');
 
 module.exports = {
   async store(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(422)
+        .json({ message: 'Invalid input', errors: errors.array() });
+    }
+
+    const { name, email, password } = req.body;
+
     try {
-      // Finds the validation errors in this request and wraps them in an object with handy functions
-      const errors = validationResult(req);
-      if (!errors.isEmpty())
-        return res.status(422).json({ errors: errors.array() });
-
-      const { name, email, password } = req.body;
-
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      const createdUser = await UserModel.create({
+      await UserModel.create({
         name,
         email,
         password: hashedPassword
       });
-
-      return res.status(200).json({ createdUser });
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
+
+    return res.status(200).json({ message: 'User created sucessfully' });
   },
 
   async delete(req, res) {
+    if (!req.isAuthenticated) {
+      return res.status(401).json({ message: 'User is not authenticated' });
+    }
+
+    const { userId } = req.params;
+
+    if (req.userId !== userId) {
+      return res
+        .status(401)
+        .json({ message: 'User is not authorized to perform this action' });
+    }
+
     try {
-      const { userId } = req.params;
       await UserModel.findByIdAndDelete(userId);
-      return res.status(204).end();
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
+
+    return res.status(200).json({ message: 'User deleted sucessfully' });
   },
 
   async update(req, res) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(422)
+        .json({ message: 'Invalid input', errors: errors.array() });
+    }
+
+    if (!req.isAuthenticated) {
+      return res.status(401).json({ message: 'User is not authenticated' });
+    }
+
+    const { userId } = req.params;
+
+    if (req.userId !== userId) {
+      return res
+        .status(401)
+        .json({ message: 'User is not authorized to perform this action' });
+    }
+
+    const { name, password, email } = req.body;
+
     try {
-      // Finds the validation errors in this request and wraps them in an object with handy functions
-      const errors = validationResult(req);
-      if (!errors.isEmpty())
-        return res.status(422).json({ errors: errors.array() });
-
-      const { userId } = req.params;
-      const { name, password, email } = req.body;
-
       const hashedPassword = await bcrypt.hash(password, 10);
 
       await UserModel.findByIdAndUpdate(userId, {
@@ -56,30 +84,37 @@ module.exports = {
         email,
         password: hashedPassword
       });
-
-      return res.status(204).end();
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
+
+    return res.status(200).json({ message: 'User updated sucessfully' });
   },
 
   async login(req, res) {
-    try {
-      // Finds the validation errors in this request and wraps them in an object with handy functions
-      const errors = validationResult(req);
-      if (!errors.isEmpty())
-        return res.status(422).json({ errors: errors.array() });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(422)
+        .json({ message: 'Invalid input', errors: errors.array() });
+    }
 
-      const { email, password } = req.body;
+    const { email, password } = req.body;
+
+    try {
       const user = await UserModel.findOne({ email: email });
-      if (!user) throw new Error('User does not exists');
+      if (!user) {
+        return res.status(400).json({ message: 'User does not exists' });
+      }
 
       // Verify if the informed password is valid
       const isValid = await bcrypt.compare(password, user.password);
-      if (!isValid) throw new Error('Credentials are invalid');
+      if (!isValid) {
+        return res.status(400).json({ message: 'Invalid credentials' });
+      }
 
       const token = await jwt.sign(
-        { userId: user.id, email: user.email },
+        { id: user.id, date: Date.now() },
         process.env.SALT,
         { expiresIn: '1h' }
       );
