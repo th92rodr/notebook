@@ -8,15 +8,33 @@ services:
       - '8080:8080'
     links:
       - db
+      - redis-auth
+      - redis-cache
     volumes:
       - .:/usr/app
       - /usr/app/node_modules
-    command: sh -c "cd /usr/app/ && npm i && npm start"
+    command: sh -c "cd /usr/app/ && npm i && npm run dev"
 
   db:
     image: mongo
     container_name: notes-taking-database
     ports:
       - '27017:27017'
+    logging:
+      driver: 'none'
+
+  redis-auth:
+    image: redis
+    container_name: notes-taking-auth-control
+    expose:
+      - 6379
+    logging:
+      driver: 'none'
+
+  redis-cache:
+    image: redis
+    container_name: notes-taking-cache
+    expose:
+      - 6379
     logging:
       driver: 'none'
