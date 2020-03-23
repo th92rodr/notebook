@@ -1,6 +1,3 @@
-/**
- * Prettier configuration file
- */
 module.exports = {
   printWidth: 80,
   tabWidth: 2,
@@ -8,6 +5,7 @@ module.exports = {
   semi: true,
   singleQuote: true,
   bracketSpacing: true,
-  arrowParens: 'always',
-  trailingComma: 'none'
+  arrowParens: 'avoid',
+  trailingComma: 'none',
+  endOfLine: 'lf'
 };
