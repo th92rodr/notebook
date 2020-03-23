@@ -6,6 +6,8 @@ const { check, validationResult } = require('express-validator');
 
 const UserModel = require('../models/User');
 
+const tokenList = {};
+
 module.exports = {
   async store(req, res) {
     const errors = validationResult(req);
@@ -119,7 +121,54 @@ module.exports = {
         { expiresIn: '1h' }
       );
 
+      tokenList[token] = {
+        user: user.id,
+        expiration: Date.now() + 1 * 60 * 60 * 1000
+      };
+
       return res.status(200).json({ token, tokenExpiration: 1 });
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  },
+
+  async refreshToken(req, res) {
+    if (!req.isAuthenticated) {
+      return res.status(401).json({ message: 'User is not authenticated' });
+    }
+
+    const oldToken = req.token;
+
+    console.log('old token', oldToken);
+
+    if (!(oldToken in tokenList)) {
+      console.log('not in list');
+      return res.status(401).json({ message: 'Invalid token' });
+    }
+
+    console.log(tokenList[oldToken]);
+    console.log(req.userId);
+
+    if (tokenList[oldToken].user !== req.userId) {
+      console.log('not same user');
+      return res.status(401).json({ message: 'Invalid token' });
+    }
+
+    delete tokenList.oldToken;
+
+    try {
+      const newToken = await jwt.sign(
+        { id: req.userId, date: Date.now() },
+        process.env.SALT,
+        { expiresIn: '1h' }
+      );
+
+      tokenList[newToken] = {
+        user: req.userId,
+        expiration: Date.now() + 1 * 60 * 60 * 1000
+      };
+
+      return res.status(200).json({ token: newToken, tokenExpiration: 1 });
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
