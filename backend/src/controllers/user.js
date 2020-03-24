@@ -9,8 +9,6 @@ const { authControlRedis } = require('../redis/');
 const { setAsync } = require('../utils/redisQuery');
 const { checkTokenValidation } = require('../utils/token');
 
-const tokenList = {};
-
 module.exports = {
   async store(req, res) {
     const errors = validationResult(req);
@@ -143,12 +141,6 @@ module.exports = {
       );
 
       date.setHours(date.getHours() + 1);
-      /*
-      tokenList[token] = {
-        user: user.id,
-        expiration: date
-      };
-      */
 
       await setAsync(
         authControlRedis,
@@ -215,14 +207,6 @@ module.exports = {
       return res.status(401).json({ message: errorMessage });
     }
 
-    /*
-    if (!(oldToken in tokenList)) {
-      console.log('not in list');
-      return res.status(401).json({ message: 'Invalid token' });
-    }
-    delete tokenList.oldToken;
-    */
-
     let date = new Date();
 
     try {
@@ -233,13 +217,6 @@ module.exports = {
       );
 
       date.setHours(date.getHours() + 1);
-
-      /*
-      tokenList[newToken] = {
-        user: user,
-        expiration: date
-      };
-      */
 
       await setAsync(
         authControlRedis,
