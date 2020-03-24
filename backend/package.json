@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node src/bin/www",
-    "dev": "nodemon src/bin/www",
+    "dev:server": "nodemon src/bin/www",
+    "dev:queue": "nodemon src/queue",
     "watch": "nodemon --inpect src/bin/www",
     "format": "npx prettier --config .prettierrc.js --write '**/*.js'",
     "lint": "npx eslint '**/*.js'",

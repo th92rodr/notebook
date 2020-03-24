@@ -10,10 +10,21 @@ services:
       - db
       - redis-auth
       - redis-cache
+      - redis-queue
     volumes:
       - .:/usr/app
       - /usr/app/node_modules
-    command: sh -c "cd /usr/app/ && npm i && npm run dev"
+    command: sh -c "cd /usr/app/ && npm i && npm run dev:server"
+
+  queue:
+    image: node:12.10.0-alpine
+    container_name: notes-taking-queue
+    links:
+      - redis-queue
+    volumes:
+      - .:/usr/app
+      - /usr/app/node_modules
+    command: sh -c "cd /usr/app/ && npm i && npm run dev:queue"
 
   db:
     image: mongo
@@ -34,6 +45,14 @@ services:
   redis-cache:
     image: redis:alpine
     container_name: notes-taking-redis-cache
+    expose:
+      - 6379
+    logging:
+      driver: 'none'
+
+  redis-queue:
+    image: redis:alpine
+    container_name: notes-taking-redis-queue
     expose:
       - 6379
     logging:
