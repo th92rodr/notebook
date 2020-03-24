@@ -7,6 +7,7 @@ const { check, validationResult } = require('express-validator');
 const UserModel = require('../models/User');
 const { authControlRedis } = require('../redis/');
 const { setAsync } = require('../utils/redisQuery');
+const { checkTokenValidation } = require('../utils/token');
 
 const tokenList = {};
 

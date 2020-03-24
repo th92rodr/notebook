@@ -4,6 +4,7 @@ const NoteModel = require('../models/Note');
 const UserModel = require('../models/User');
 const { cacheRedis } = require('../redis/');
 const { setAsync } = require('../utils/redisQuery');
+const { checkTokenValidation } = require('../utils/token');
 
 module.exports = {
   async index(req, res) {
