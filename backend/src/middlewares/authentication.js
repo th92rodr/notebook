@@ -31,8 +31,10 @@ module.exports = (req, res, next) => {
 
   if (!decodedToken) return isNotAuthenticated(req, next);
 
+  console.log('decodedToken ', decodedToken);
+
   req.isAuthenticated = true;
-  req.userId = decodedToken.userId;
+  req.userId = decodedToken.id;
   req.token = token;
   return next();
 };

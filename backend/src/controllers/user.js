@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 
 const UserModel = require('../models/User');
+const { authControlRedis } = require('../redis/');
 
 const tokenList = {};
 
@@ -31,7 +32,7 @@ module.exports = {
       return res.status(500).json({ message: error.message });
     }
 
-    return res.status(200).json({ message: 'User created sucessfully' });
+    return res.status(201).json({ message: 'User created sucessfully' });
   },
 
   async delete(req, res) {
@@ -45,6 +46,14 @@ module.exports = {
       return res
         .status(401)
         .json({ message: 'User is not authorized to perform this action' });
+    }
+
+    const { isValid, errorMessage } = await checkTokenValidation(
+      userId,
+      req.token
+    );
+    if (!isValid) {
+      return res.status(401).json({ message: errorMessage });
     }
 
     try {
@@ -74,6 +83,14 @@ module.exports = {
       return res
         .status(401)
         .json({ message: 'User is not authorized to perform this action' });
+    }
+
+    const { isValid, errorMessage } = await checkTokenValidation(
+      userId,
+      req.token
+    );
+    if (!isValid) {
+      return res.status(401).json({ message: errorMessage });
     }
 
     const { name, password, email } = req.body;
@@ -115,16 +132,29 @@ module.exports = {
         return res.status(400).json({ message: 'Invalid credentials' });
       }
 
+      let date = new Date();
+
       const token = await jwt.sign(
-        { id: user.id, date: Date.now() },
+        { id: user.id, date: date },
         process.env.SALT,
         { expiresIn: '1h' }
       );
 
+      date.setHours(date.getHours() + 1);
+      /*
       tokenList[token] = {
         user: user.id,
-        expiration: Date.now() + 1 * 60 * 60 * 1000
+        expiration: date
       };
+      */
+
+      await setAsync(
+        user.id,
+        JSON.stringify({
+          token: token,
+          expiration: date
+        })
+      );
 
       return res.status(200).json({ token, tokenExpiration: 1 });
     } catch (error) {
@@ -138,35 +168,57 @@ module.exports = {
     }
 
     const oldToken = req.token;
-
     console.log('old token', oldToken);
+    console.log('old token user ', req.userId);
 
-    if (!(oldToken in tokenList)) {
-      console.log('not in list');
-      return res.status(401).json({ message: 'Invalid token' });
-    }
+    const { user } = req.body;
 
-    console.log(tokenList[oldToken]);
-    console.log(req.userId);
-
-    if (tokenList[oldToken].user !== req.userId) {
+    if (user !== req.userId) {
       console.log('not same user');
       return res.status(401).json({ message: 'Invalid token' });
     }
 
+    const { isValid, errorMessage } = await checkTokenValidation(
+      user,
+      oldToken
+    );
+    if (!isValid) {
+      return res.status(401).json({ message: errorMessage });
+    }
+
+    /*
+    if (!(oldToken in tokenList)) {
+      console.log('not in list');
+      return res.status(401).json({ message: 'Invalid token' });
+    }
     delete tokenList.oldToken;
+    */
+
+    let date = new Date();
 
     try {
       const newToken = await jwt.sign(
-        { id: req.userId, date: Date.now() },
+        { id: user, date: date },
         process.env.SALT,
         { expiresIn: '1h' }
       );
 
+      date.setHours(date.getHours() + 1);
+
+      /*
       tokenList[newToken] = {
-        user: req.userId,
-        expiration: Date.now() + 1 * 60 * 60 * 1000
+        user: user,
+        expiration: date
       };
+      */
+
+      await setAsync(
+        user,
+        JSON.stringify({
+          token: newToken,
+          expiration: date
+        })
+      );
 
       return res.status(200).json({ token: newToken, tokenExpiration: 1 });
     } catch (error) {
@@ -199,3 +251,49 @@ module.exports = {
     }
   }
 };
+
+function getAsync(key) {
+  return new Promise(function(resolve, reject) {
+    authControlRedis.get(key, (error, data) => {
+      if (error) reject(error);
+      if (data === null) reject();
+
+      resolve(JSON.parse(data));
+    });
+  });
+}
+
+function setAsync(key, value) {
+  return new Promise(function(resolve, reject) {
+    authControlRedis.set(key, value, error => {
+      if (error) reject(error);
+      resolve();
+    });
+  });
+}
+
+async function checkTokenValidation(user, token) {
+  try {
+    const data = await getAsync(user);
+
+    if (token !== data.token) {
+      throw Error;
+    }
+
+    const currentDate = new Date();
+    const expirationDate = new Date(data.expiration);
+
+    if (currentDate > expirationDate) {
+      throw Error;
+    }
+  } catch (error) {
+    return {
+      isValid: false,
+      errorMessage: 'Invalid token'
+    };
+  }
+
+  return {
+    isValid: true
+  };
+}
