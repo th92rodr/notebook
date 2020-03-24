@@ -8,6 +8,7 @@ router.post('/', controller.validate('store'), controller.store);
 router.delete('/:userId', controller.delete);
 router.put('/:userId', controller.validate('update'), controller.update);
 router.post('/login', controller.validate('login'), controller.login);
-router.get('/refresh', controller.refreshToken);
+router.post('/logout', controller.logout);
+router.post('/refresh', controller.refreshToken);
 
 module.exports = router;

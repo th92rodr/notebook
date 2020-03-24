@@ -162,6 +162,32 @@ module.exports = {
     }
   },
 
+  async logout(req, res) {
+    if (!req.isAuthenticated) {
+      return res.status(401).json({ message: 'User is not authenticated' });
+    }
+
+    const { userId } = req.params;
+
+    if (req.userId !== userId) {
+      return res
+        .status(401)
+        .json({ message: 'User is not authorized to perform this action' });
+    }
+
+    const { isValid, errorMessage } = await checkTokenValidation(
+      userId,
+      req.token
+    );
+    if (!isValid) {
+      return res.status(401).json({ message: errorMessage });
+    }
+
+    authControlRedis.del(userId);
+
+    res.status(204).end();
+  },
+
   async refreshToken(req, res) {
     if (!req.isAuthenticated) {
       return res.status(401).json({ message: 'User is not authenticated' });
