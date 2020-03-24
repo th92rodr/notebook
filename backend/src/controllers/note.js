@@ -2,6 +2,8 @@ const { check, validationResult } = require('express-validator');
 
 const NoteModel = require('../models/Note');
 const UserModel = require('../models/User');
+const { cacheRedis } = require('../redis/');
+const { setAsync } = require('../utils/redisQuery');
 
 module.exports = {
   async index(req, res) {
@@ -37,6 +39,8 @@ module.exports = {
       if (!user) throw new Error('User does not exists');
 
       const notes = await NoteModel.find({ creator: user });
+
+      await setAsync(cacheRedis, user.id, notes);
 
       return res.status(200).json({ notes });
     } catch (error) {
