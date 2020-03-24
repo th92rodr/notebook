@@ -4,8 +4,7 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
-      // remove any white spaces from the user input
-      trim: true,
+      trim: true, // remove any white spaces from the user input
       required: true
     },
     password: {

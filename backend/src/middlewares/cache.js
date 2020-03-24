@@ -14,7 +14,7 @@ async function cache(req, res, next) {
 }
 
 function getAsync(key) {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     cacheRedis.get(key, (error, data) => {
       if (error) reject(error);
       if (data === null) reject();
