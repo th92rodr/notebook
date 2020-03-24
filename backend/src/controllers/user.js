@@ -6,6 +6,7 @@ const { check, validationResult } = require('express-validator');
 
 const UserModel = require('../models/User');
 const { authControlRedis } = require('../redis/');
+const { setAsync } = require('../utils/redisQuery');
 
 const tokenList = {};
 
@@ -149,6 +150,7 @@ module.exports = {
       */
 
       await setAsync(
+        authControlRedis,
         user.id,
         JSON.stringify({
           token: token,
@@ -239,6 +241,7 @@ module.exports = {
       */
 
       await setAsync(
+        authControlRedis,
         user,
         JSON.stringify({
           token: newToken,
@@ -277,49 +280,3 @@ module.exports = {
     }
   }
 };
-
-function getAsync(key) {
-  return new Promise(function(resolve, reject) {
-    authControlRedis.get(key, (error, data) => {
-      if (error) reject(error);
-      if (data === null) reject();
-
-      resolve(JSON.parse(data));
-    });
-  });
-}
-
-function setAsync(key, value) {
-  return new Promise(function(resolve, reject) {
-    authControlRedis.set(key, value, error => {
-      if (error) reject(error);
-      resolve();
-    });
-  });
-}
-
-async function checkTokenValidation(user, token) {
-  try {
-    const data = await getAsync(user);
-
-    if (token !== data.token) {
-      throw Error;
-    }
-
-    const currentDate = new Date();
-    const expirationDate = new Date(data.expiration);
-
-    if (currentDate > expirationDate) {
-      throw Error;
-    }
-  } catch (error) {
-    return {
-      isValid: false,
-      errorMessage: 'Invalid token'
-    };
-  }
-
-  return {
-    isValid: true
-  };
-}
