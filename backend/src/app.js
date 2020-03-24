@@ -1,19 +1,25 @@
 const express = require('express');
 const bodyparser = require('body-parser');
 
-const routes = require('./routes/index');
+require('./database/').connect();
+require('./redis');
 
-// Initialize an express app
+const cors = require('./middlewares/cors');
+const checkAuthentication = require('./middlewares/authentication');
+//const { logger } = require('./middlewares/logger');
+
+const routes = require('./routes/');
+
 const app = express();
 
 // Add a parser for JSON format requests
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 
-// Add routing
-app.use('/', routes);
+// MIDDLEWARES
+app.use(cors);
+app.use(checkAuthentication);
 
-// Start connection to database 
-require('./database').connect();
+app.use('/', routes);
 
 module.exports = app;
