@@ -1,3 +1,6 @@
+const { authControlRedis } = require('../redis/');
+const { getAsync } = require('./redisQuery');
+
 async function checkTokenValidation(user, token) {
   try {
     const data = await getAsync(authControlRedis, user);
