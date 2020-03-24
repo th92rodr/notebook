@@ -24,16 +24,16 @@ services:
       driver: 'none'
 
   redis-auth:
-    image: redis
-    container_name: notes-taking-auth-control
+    image: redis:alpine
+    container_name: notes-taking-redis-authcontrol
     expose:
       - 6379
     logging:
       driver: 'none'
 
   redis-cache:
-    image: redis
-    container_name: notes-taking-cache
+    image: redis:alpine
+    container_name: notes-taking-redis-cache
     expose:
       - 6379
     logging:
