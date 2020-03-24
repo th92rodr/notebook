@@ -8,6 +8,7 @@ const UserModel = require('../models/User');
 const { authControlRedis } = require('../redis/');
 const { setAsync } = require('../utils/redisQuery');
 const { checkTokenValidation } = require('../utils/token');
+const Queue = require('../libs/queue');
 
 module.exports = {
   async store(req, res) {
@@ -31,6 +32,8 @@ module.exports = {
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
+
+    await Queue.add('RegistrationMail', { name, email });
 
     return res.status(201).json({ message: 'User created sucessfully' });
   },
