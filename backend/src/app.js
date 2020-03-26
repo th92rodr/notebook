@@ -6,7 +6,7 @@ require('./redis');
 
 const cors = require('./middlewares/cors');
 const checkAuthentication = require('./middlewares/authentication');
-//const { logger } = require('./middlewares/logger');
+const { logger } = require('./middlewares/logger');
 
 const routes = require('./routes/');
 
@@ -19,6 +19,7 @@ app.use(bodyparser.urlencoded({ extended: true }));
 // MIDDLEWARES
 app.use(cors);
 app.use(checkAuthentication);
+app.use(logger);
 
 app.use('/', routes);
 
