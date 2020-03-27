@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  app:
+    image: node:12.10.0-alpine
+    container_name: notes-taking-frontend
+    ports:
+      - '3001:3000'
+    volumes:
+      - .:/usr/app
+      - /usr/app/node_modules
+    command: sh -c "cd /usr/app && npm i && npm start"
