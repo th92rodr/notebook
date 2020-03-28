@@ -5,6 +5,13 @@ const user = require('./user');
 
 const router = express.Router();
 
+router.get('/', (req, res) => {
+  res.json({
+    notes: 'http://localhost:8080/notes',
+    users: 'http://localhost:8080/users'
+  });
+});
+
 router.use('/notes', note);
 router.use('/users', user);
 
