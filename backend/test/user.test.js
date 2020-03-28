@@ -87,3 +87,46 @@ describe('Create user on /users/ POST', () => {
     expect(res.body.errors[0].msg).toBe('Name does not exists');
   });
 });
+
+describe('Update user on /users/ PUT', () => {});
+
+describe('Delete user on /users/ DELETE', () => {
+  let userId;
+  let token;
+  beforeEach(async () => {
+    await request(app)
+      .post('/users/')
+      .send({
+        name: okName,
+        email: okEmail,
+        password: okPassword
+      });
+
+    const res = await request(app)
+      .post('/users/login')
+      .send({
+        email: okEmail,
+        password: okPassword
+      });
+    console.log('login res ', res.body);
+
+    token = res.body.token;
+    userId = await jwt.decode(token).id;
+    console.log('token ', token);
+    console.log('userId ', userId);
+  });
+
+  afterEach(async () => {
+    await User.collection.drop();
+  });
+
+  test('should return status 200 and sucess message', async () => {
+    const res = await request(app)
+      .delete(`/users/${userId}`)
+      .set('Authorization', token);
+    console.log('Result ', res.body);
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.message).toBe('User deleted sucessfully');
+  });
+});
