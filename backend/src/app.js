@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyparser = require('body-parser');
+const helmet = require('helmet');
 
 require('./database/').connect();
 require('./redis');
@@ -11,6 +12,8 @@ const { logger } = require('./middlewares/logger');
 const routes = require('./routes/');
 
 const app = express();
+
+app.use(helmet());
 
 // Add a parser for JSON format requests
 app.use(bodyparser.json());
