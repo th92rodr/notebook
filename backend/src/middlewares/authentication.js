@@ -2,7 +2,6 @@
 // save the result in the request.
 // This value is going to be checked in the controllers,
 // since some routes require authentication and others don't.
-require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
 function isNotAuthenticated(req, next) {
