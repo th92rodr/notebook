@@ -1,9 +1,15 @@
-require('dotenv').config();
 const mongoose = require('mongoose');
+
+let databaseURL;
+if ((process.env.NODE_ENV = 'test')) {
+  databaseURL = process.env.TEST_DATABASE;
+} else {
+  databaseURL = process.env.DATABASE;
+}
 
 module.exports.connect = () => {
   mongoose
-    .connect(process.env.DATABASE, { useNewUrlParser: true })
+    .connect(databaseURL, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
       console.log('Sucessfully connected to MongoDB');
     })
