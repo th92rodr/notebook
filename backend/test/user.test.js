@@ -103,6 +103,31 @@ describe('Create user on /users/ POST', () => {
   });
 });
 
+describe('Login user on /users/login POST', () => {
+  beforeEach(async () => {
+    await request(app)
+      .post('/users/')
+      .send({
+        name: okName,
+        email: okEmail,
+        password: okPassword
+      });
+  });
+
+  test('should return status 200 and token', async () => {
+    const res = await request(app)
+      .post('/users/login')
+      .send({
+        email: okEmail,
+        password: okPassword
+      });
+    //console.log('Result ', res.body);
+
+    expect(res.statusCode).toEqual(200);
+    expect(Object.keys(res.body)).toMatchObject(['token', 'tokenExpiration']);
+  });
+});
+
 describe('Delete user on /users/ DELETE', () => {
   let userId;
   let token;
