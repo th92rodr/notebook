@@ -9,7 +9,11 @@ if ((process.env.NODE_ENV = 'test')) {
 
 module.exports.connect = () => {
   mongoose
-    .connect(databaseURL, { useNewUrlParser: true, useUnifiedTopology: true })
+    .connect(databaseURL, {
+      useCreateIndex: true,
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    })
     .then(() => {
       console.log('Sucessfully connected to MongoDB');
     })
