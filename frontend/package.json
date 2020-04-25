@@ -16,6 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/Thiago92Rodrigues/notes-taking-api.git"
   },
+  "homepage": "https://github.com/Thiago92Rodrigues/notes-taking-api#readme",
   "bugs": {
     "url": "https://github.com/Thiago92Rodrigues/notes-taking-api/issues"
   },
