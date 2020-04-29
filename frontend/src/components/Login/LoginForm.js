@@ -29,10 +29,10 @@ function Login() {
     <div className='form-container sign-in-container'>
       <form onSubmit={loginHandler}>
         <h1>Sign In</h1>
-        <input type='email' id='email' placeholder='Email' ref={emailElement} />
+        <input id='email' type='email' placeholder='Email' ref={emailElement} />
         <input
-          type='password'
           id='password'
+          type='password'
           placeholder='Password'
           ref={passwordElement}
         />

@@ -31,11 +31,11 @@ function SignUp() {
     <div className='form-container sign-up-container'>
       <form onSubmit={signUpHandler}>
         <h1>Create Account</h1>
-        <input type='text' id='name' placeholder='Name' ref={nameElement} />
-        <input type='email' id='email' placeholder='Email' ref={emailElement} />
+        <input id='name' type='text' placeholder='Name' ref={nameElement} />
+        <input id='email' type='email' placeholder='Email' ref={emailElement} />
         <input
-          type='password'
           id='password'
+          type='password'
           placeholder='Password'
           ref={passwordElement}
         />
