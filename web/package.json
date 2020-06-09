@@ -2,14 +2,15 @@
   "name": "notes_taking_web",
   "version": "1.0.0",
   "author": "Thiago Rodrigues",
-  "license": "ISC",
+  "license": "MIT",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "npx prettier --config .prettierrc.js --write '**/*.+(js|css|html)'",
-    "lint": "npx eslint '**/*.js'"
+    "format": "prettier --config .prettierrc.js --write '**/*.+{js, css, html}'",
+    "lint": "eslint '**/*.js'",
+    "lint:fix": "eslint '**/*.js' --fix"
   },
   "repository": {
     "type": "git",
@@ -40,5 +41,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-plugin-react": "^7.20.0",
+    "prettier": "^2.0.5"
   }
 }

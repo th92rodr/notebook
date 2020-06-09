@@ -2,14 +2,15 @@
   "name": "notes_taking_server",
   "version": "1.0.0",
   "author": "Thiago Rodrigues",
-  "license": "ISC",
+  "license": "MIT",
   "main": "app.js",
   "scripts": {
     "start": "node src/bin/www",
     "dev": "nodemon src/bin/www",
     "watch": "nodemon --inpect src/bin/www",
-    "format": "npx prettier --config .prettierrc.js --write '**/*.js'",
-    "lint": "npx eslint '**/*.js'",
+    "format": "prettier --config .prettierrc.js --write '**/*.js'",
+    "lint": "eslint '**/*.js'",
+    "lint:fix": "eslint '**/*.js' --fix",
     "test": "jest",
     "test:catch": "jest --detectOpenHandles"
   },
@@ -44,6 +45,7 @@
     "jest": "^25.1.0",
     "mocha": "^6.2.0",
     "nodemon": "^1.19.2",
+    "prettier": "^2.0.5",
     "supertest": "^4.0.2"
   },
   "jest": {
