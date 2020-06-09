@@ -1,7 +1,8 @@
 {
-  "name": "notes-taking-backend",
+  "name": "notes_taking_server",
   "version": "1.0.0",
-  "description": "",
+  "author": "Thiago Rodrigues",
+  "license": "ISC",
   "main": "app.js",
   "scripts": {
     "start": "node src/bin/www",
@@ -12,9 +13,6 @@
     "test": "jest",
     "test:catch": "jest --detectOpenHandles"
   },
-  "keywords": [],
-  "author": "Thiago Rodrigues",
-  "license": "ISC",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Thiago92Rodrigues/notes-taking-api.git"
