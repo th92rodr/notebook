@@ -1,41 +1,64 @@
-# NOTES TAKING APP
+# Notes Taking App 📝
 
-[![Node](https://img.shields.io/badge/Node.JS-JS--runtime-green.svg?logo=node.js)](https://nodejs.org/en/)
-[![Express](https://img.shields.io/badge/Express-framework-yellow.svg?logo=JavaScript)](https://expressjs.com/)
-[![Mongoose](https://img.shields.io/badge/MongoDB-database-green.svg?logo=MongoDB)](https://www.mongodb.com/what-is-mongodb)
-[![Docker](https://img.shields.io/badge/Docker-container-blue.svg?logo=docker)](https://www.docker.com/)
-[![Postman](https://img.shields.io/badge/Postman-API--Dev-blue.svg?logo=Postman)](https://www.getpostman.com/)
+<p align="center">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/Thiago92Rodrigues/notes-taking-app?color=%237519C1">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/Thiago92Rodrigues/notes-taking-app">
+  <img alt="Made by ThiagoRodrigues" src="https://img.shields.io/badge/made%20by-ThiagoRodrigues-%237519C1">
+</p>
 
-- **Backend**: `Node.js` / `Express.js`
-- **Frontend**: `React.js`
-- **Architeture**: `REST`
-- **Database**: `MongoDB`
+<p align="center">
+  <a href="https://www.docker.com/"><img alt="" src="https://img.shields.io/badge/Docker-container-2496ED.svg?logo=docker"></a>
+  <a href="https://www.postman.com/"><img alt="" src="https://img.shields.io/badge/Postman-API-FF6C37.svg?logo=Postman"></a>
+</p>
 
-## RUNNING THE APPLICATION
+## Stack
 
-### Backend
+- API Server: <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-green.svg?logo=node.js" alt="Node.js"></a> / <a href="https://expressjs.com/"><img src="https://img.shields.io/badge/Express-green.svg?logo=node.js" alt="Express"></a>
+- SPA App (Web Frontend): <a href="https://reactjs.org/"><img src="https://img.shields.io/badge/React.js-blue.svg?logo=react" alt="React.js"></a>
+- API Architeture: `REST`
+- Database: <a href="https://www.mongodb.com/"><img src="https://img.shields.io/badge/MongoDB-47A248.svg?logo=mongodb" alt="MongoDB"></a>
+
+## How To Run
+
+### API Server
+
+- Go to `server` directory:
+
+```
+cd server
+```
+
+- Run `docker-compose`:
 
 ```sh
 docker-compose up
 ```
 
-### Frontend
+### SPA App (Web Frontend)
 
-- first install the project dependencies
+- Go to `web` directory:
 
-```sh
-npm install
+```
+cd web
 ```
 
-- then start the app
+- Install project dependencies:
 
-```sh
+```
+npm i
+```
+
+- Start app:
+
+The app will be running on port `3000`.
+
+```
 npm start
 ```
 
-## DEPENDENCIES
+## Dependencies
 
-### Backend
+### API Server
 
 - **`express`**</br>
   Fast, unopinionated, minimalist web framework for node.</br>
@@ -77,7 +100,7 @@ npm start
   A high performance Node.js Redis client.</br>
   https://www.npmjs.com/package/redis
 
-### Frontend
+### Web Frontend
 
 - **`react`**</br>
   React is a JavaScript library for creating user interfaces.</br>
