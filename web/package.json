@@ -14,11 +14,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Thiago92Rodrigues/notes-taking-api.git"
+    "url": "git+https://github.com/th92rodr/notes-taking-api.git"
   },
-  "homepage": "https://github.com/Thiago92Rodrigues/notes-taking-api#readme",
   "bugs": {
-    "url": "https://github.com/Thiago92Rodrigues/notes-taking-api/issues"
+    "url": "https://github.com/th92rodr/notes-taking-api/issues"
   },
   "dependencies": {
     "react": "^16.13.0",
