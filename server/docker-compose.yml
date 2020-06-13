@@ -3,7 +3,7 @@ version: '3'
 services:
   app:
     image: node:12.10.0-alpine
-    container_name: notes-taking-server
+    container_name: notebook-server
     ports:
       - '8080:8080'
     links:
@@ -17,7 +17,7 @@ services:
 
   db:
     image: mongo
-    container_name: notes-taking-database
+    container_name: notebook-database
     ports:
       - '27017:27017'
     logging:
@@ -25,7 +25,7 @@ services:
 
   redis-auth:
     image: redis:alpine
-    container_name: notes-taking-redis-authcontrol
+    container_name: notebook-redis-authcontrol
     expose:
       - 6379
     logging:
@@ -33,7 +33,7 @@ services:
 
   redis-cache:
     image: redis:alpine
-    container_name: notes-taking-redis-cache
+    container_name: notebook-redis-cache
     expose:
       - 6379
     logging:
