@@ -1,8 +1,8 @@
-# Notes Taking App 📝
+# Notebook 📝
 
 <p align="center">
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/Thiago92Rodrigues/notes-taking-app?color=%237519C1">
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/Thiago92Rodrigues/notes-taking-app">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/th92rodr/notebook?color=%237519C1">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/th92rodr/notebook">
   <img alt="Made by ThiagoRodrigues" src="https://img.shields.io/badge/made%20by-ThiagoRodrigues-%237519C1">
 </p>
 
