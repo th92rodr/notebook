@@ -1,5 +1,5 @@
 {
-  "name": "notes_taking_web",
+  "name": "notebook_web",
   "version": "1.0.0",
   "author": "Thiago Rodrigues",
   "license": "MIT",
@@ -14,10 +14,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/th92rodr/notes-taking-api.git"
+    "url": "git+https://github.com/th92rodr/notebook.git"
   },
   "bugs": {
-    "url": "https://github.com/th92rodr/notes-taking-api/issues"
+    "url": "https://github.com/th92rodr/notebook/issues"
   },
   "dependencies": {
     "react": "^16.13.0",
