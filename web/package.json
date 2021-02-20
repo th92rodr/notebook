@@ -8,26 +8,16 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier --config .prettierrc.js --write '**/*.+{js, css, html}'",
-    "lint": "eslint '**/*.js'",
-    "lint:fix": "eslint '**/*.js' --fix"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/th92rodr/notebook.git"
-  },
-  "bugs": {
-    "url": "https://github.com/th92rodr/notebook/issues"
+    "pretty": "prettier --config .prettierrc.json --write './src/**/*.{js,jsx,html,css}'",
+    "lint": "eslint './src/**/*.js'",
+    "lint:fix": "eslint './src/**/*.js' --fix"
   },
   "dependencies": {
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
-    "styled-components": "^5.0.1"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "styled-components": "^5.2.1"
   },
   "browserslist": {
     "production": [
@@ -42,8 +32,8 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^7.2.0",
-    "eslint-plugin-react": "^7.20.0",
-    "prettier": "^2.0.5"
+    "eslint": "^7.20.0",
+    "eslint-plugin-react": "^7.22.0",
+    "prettier": "^2.2.1"
   }
 }
