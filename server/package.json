@@ -1,5 +1,5 @@
 {
-  "name": "notebook_server",
+  "name": "notebook_api",
   "version": "1.0.0",
   "author": "Thiago Rodrigues",
   "license": "MIT",
@@ -8,18 +8,11 @@
     "start": "node src/bin/www",
     "dev": "nodemon src/bin/www",
     "watch": "nodemon --inpect src/bin/www",
-    "format": "prettier --config .prettierrc.js --write '**/*.js'",
-    "lint": "eslint '**/*.js'",
-    "lint:fix": "eslint '**/*.js' --fix",
+    "pretty": "prettier --config .prettierrc.json --write './src/**/*.js'",
+    "lint": "eslint './src/**/*.js'",
+    "lint:fix": "eslint './src/**/*.js' --fix",
     "test": "jest",
     "test:catch": "jest --detectOpenHandles"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/th92rodr/notebook.git"
-  },
-  "bugs": {
-    "url": "https://github.com/th92rodr/notebook/issues"
   },
   "engines": {
     "npm": "6.13.7",
@@ -30,21 +23,21 @@
     "body-parser": "^1.19.0",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
-    "express-validator": "^6.2.0",
-    "helmet": "^3.22.0",
+    "express-validator": "^6.9.2",
+    "helmet": "^3.23.3",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.7.5",
+    "mongoose": "^5.11.17",
     "morgan": "^1.9.1",
     "redis": "^3.0.2"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
+    "chai": "^4.3.0",
     "chai-http": "^4.3.0",
     "eslint": "^6.5.1",
     "jest": "^25.1.0",
     "mocha": "^6.2.0",
     "nodemon": "^1.19.2",
-    "prettier": "^2.0.5",
+    "prettier": "^2.2.1",
     "supertest": "^4.0.2"
   },
   "jest": {
